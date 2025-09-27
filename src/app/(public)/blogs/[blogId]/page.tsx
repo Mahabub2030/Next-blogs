@@ -2,7 +2,7 @@
 import BlogDetailsCard from "@/components/modules/Blogs/BlogDetailsCard";
 
 export const generateStaticParams = async () => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}`);
   const blogs = await res.json();
 
   return blogs.slice(0, 2).map((blog: any) => ({
@@ -17,7 +17,7 @@ export const generateMetadata = async ({
 }) => {
   const { blogId } = await params;
 
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post/${blogId}`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/${blogId}`);
   const blog = await res.json();
 
   return {
