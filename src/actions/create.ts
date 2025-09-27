@@ -22,9 +22,10 @@ export const create = async (data: FormData) => {
     body: JSON.stringify(modifiedData),
   });
 
+
   const result = await res.json();
   if (result) {
-    redirect("/");
+    redirect("/blogs");
   }
   return result;
 };

@@ -1,11 +1,10 @@
 "use client";
 
 import { create } from "@/actions/create";
-import Form from "next/form";
 
 export default function CreateBlogForm() {
   return (
-    <Form
+    <form
       action={create}
       className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-lg space-y-4 w-full"
     >
@@ -95,6 +94,6 @@ export default function CreateBlogForm() {
       >
         Submit
       </button>
-    </Form>
+    </form>
   );
 }
