@@ -7,13 +7,13 @@ export const create = async (data: FormData) => {
 
   const modifiedData = {
     ...blogInfo,
-    authorId: 1,
     tags: blogInfo.tags
       .toString()
       .split(",")
       .map((tag) => tag.trim()),
+    authorId: 1,
+    isFeatured: Boolean(blogInfo.isFeatured),
   };
-  console.log(modifiedData);
   const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/post`, {
     method: "POST",
     headers: {
@@ -21,7 +21,6 @@ export const create = async (data: FormData) => {
     },
     body: JSON.stringify(modifiedData),
   });
-
 
   const result = await res.json();
   if (result) {
