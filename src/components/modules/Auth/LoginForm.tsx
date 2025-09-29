@@ -1,5 +1,6 @@
 "use client";
 
+import { login } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,6 +15,7 @@ import { signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 // type LoginFormValues = {
 //   email: string;
@@ -30,18 +32,14 @@ export default function LoginForm() {
 
   const onSubmit = async (values: FieldValues) => {
     try {
-      // const res = await login(values);
-      // if (res?.id) {
-      //   toast.success("User Logged in Successfully");
-      // } else {
-      //   toast.error("User Login Failed");
-      // }
-      signIn("credentials", {
-        ...values,
-        callbackUrl: "/dashboard",
-      });
-    } catch (err) {
-      console.error(err);
+      const res = await login(values);
+      if (res?.id) {
+        toast.success("User Loggin Successfully 👌");
+      } else {
+        toast.error("Loggin Falied 😫");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

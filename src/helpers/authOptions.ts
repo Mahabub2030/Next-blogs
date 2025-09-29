@@ -1,9 +1,56 @@
+import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 export const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+    }),
+    CredentialsProvider({
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          console.error(" offss!!! Email Password Missing ");
+          return null;
+        }
+        try {
+          const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_API}/auth/login`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                email: credentials.email,
+                password: credentials.password,
+              }),
+            }
+          );
+          console.log("response from backedn", res);
+          if (!res?.ok) {
+            console.error("Login Failed", await res.text());
+            return null;
+          }
+          const user = await res.json();
+          if (user?.id) {
+            return {
+              id: user?.id,
+              name: user?.name,
+              email: user?.email,
+              image: user?.picture,
+            };
+          } else {
+            return null;
+          }
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      },
     }),
   ],
   secret: process.env.AUTH_SECRET,
