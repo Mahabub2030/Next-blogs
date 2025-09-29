@@ -1,5 +1,6 @@
 "use client";
 
+import { register } from "@/actions/auth";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -13,6 +14,7 @@ import { Input } from "@/components/ui/input";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FieldValues, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 // type RegisterFormValues = {
 //   name: string;
@@ -33,8 +35,12 @@ export default function RegisterForm() {
   const router = useRouter();
   const onSubmit = async (values: FieldValues) => {
     try {
-    } catch (err) {
-      console.error(err);
+      const res = await register(values);
+      if (res?.id) {
+        toast.success("User Reister Succesfully 👌");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
